@@ -1,12 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Website</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Reading Group</title>
+  <link rel="stylesheet" href="style.css"> <!-- Link to external CSS file -->
 </head>
 <body>
-    <h1>Welcome to My Website!</h1>
-    <p>This is my very simple website hosted on GitHub Pages. 🔥</p>
+
+  <h1>The Noisebridge AI Reading Group</h1>
+
+  <!-- Neural Network Visualization -->
+  <div id="neural-network">
+    <!-- Input Layer (3 nodes) -->
+    <div class="layer input-layer">
+      <div class="node" id="input1"></div>
+      <div class="node" id="input2"></div>
+      <div class="node" id="input3"></div>
+    </div>
+
+    <!-- Hidden Layer 1 (4 nodes) -->
+    <div class="layer hidden-layer1">
+      <div class="node" id="hidden1_1"></div>
+      <div class="node" id="hidden1_2"></div>
+      <div class="node" id="hidden1_3"></div>
+      <div class="node" id="hidden1_4"></div>
+    </div>
+
+    <!-- Hidden Layer 2 (4 nodes) -->
+    <div class="layer hidden-layer2">
+      <div class="node" id="hidden2_1"></div>
+      <div class="node" id="hidden2_2"></div>
+      <div class="node" id="hidden2_3"></div>
+      <div class="node" id="hidden2_4"></div>
+    </div>
+
+    <!-- Output Layer (2 nodes) -->
+    <div class="layer output-layer">
+      <div class="node" id="output1"></div>
+      <div class="node" id="output2"></div>
+    </div>
+
+    <!-- SVG for Connections -->
+    <svg id="connections-svg"></svg>
+  </div>
+
+  <!-- Meetings Section -->
+  <div class="meetings-container">
+
+    <!-- Meetings Description -->
+    <div class="section meetings-description">
+      The Noisebridge AI Reading Group is a small group that meets to discuss topics in artificial intelligence and machine learning. We currently meet about every month at <a href="https://grayarea.org/">Gray Area</a> in San Fransisco and explore various research papers and discuss ongoing advancements in AI. Each meeting features a presenter who gives a brief talk followed by an open discussion. The group is organized by <strong>Jane Doe, John Smith, & friends</strong>.
+      <br><br>
+      If you'd like to suggest a paper or present one yourself, check out our <a href="https://docs.google.com/spreadsheets/d/1Yl_XXtMnA0cbyu6XUTVVtnnSIrHobe1eTQujQn6O0mM/edit?gid=1555649823#gid=1555649823">spreadsheet</a> and make a suggestion. All communications take place on Discord.
+    </div>
+
+    <!-- Next Meeting Section -->
+    <div class="section next-meeting">
+      <h2>Next Meeting</h2>
+      <div class="meeting-info">
+        <strong>Date:</strong> ???<br>
+        <strong>Topic:</strong> "To be determined!"<br>
+        <strong>Presenter:</strong> 
+      </div>
+    </div>
+
+    <!-- Prior Meetings Section -->
+    <div class="section prior-meetings">
+      <h2>Prior Meetings</h2>
+
+      <div class="prior-meeting-entry">
+        <strong>09/25/24:</strong> "Open-endedness is all we’ll need", <a href="https://press.airstreet.com/p/open-endedness-is-all-well-need">[ARTICLE]</a>
+      </div>
+
+        <!-- keeping an example -->
+     <!-- <div class="prior-meeting-entry"> -->
+     <!--   <strong>09/10/24:</strong> "Explainable AI: Trends and Techniques", Sarah Connor <a href="#">[VIDEO]</a> <    a href="#">[AUDIO]</a> -->
+     <!-- </div>-->
+
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script> <!-- Link to external JavaScript file -->
+
 </body>
 </html>

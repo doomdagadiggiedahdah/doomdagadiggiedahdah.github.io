@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Reading Group - 4 Layer Neural Network</title>
+  <style>
+    /* Basic Reset and Styling */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #1e1e1e;
+      color: #f0f0f0;
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+      color: #61dafb;
+    }
+
+    p {
+      font-size: 1.2em;
+      margin-bottom: 50px;
+      color: #a0a0a0;
+    }
+
+    /* Neural Network Container */
+    #neural-network {
+      position: relative;
+      width: 100%;
+      max-width: 1000px;
+      height: 500px;
+      margin: 0 auto;
+    }
+
+    /* Layers */
+    .layer {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .input-layer {
+      left: 5%;
+    }
+
+    .hidden-layer1 {
+      left: 30%;
+    }
+
+    .hidden-layer2 {
+      left: 60%;
+    }
+
+    .output-layer {
+      left: 85%;
+    }
+
+    /* Nodes */
+    .node {
+      width: 20px;
+      height: 20px;
+      background-color: #555;
+      border-radius: 50%;
+      margin: 20px 0;
+      opacity: 0.6;
+      transition: background-color 0.3s, transform 0.3s, opacity 0.3s;
+    }
+
+    .node.active {
+      background-color: #61dafb;
+      transform: scale(1.5);
+      opacity: 1;
+    }
+
+    /* SVG for Connections */
+    svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Connection Lines */
+    .connection {
+      stroke: #555;
+      stroke-width: 2;
+      opacity: 0.3;
+      transition: stroke 0.3s, opacity 0.6s;
+    }
+
+    .connection.active {
+      stroke: #61dafb;
+      opacity: 1;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      #neural-network {
+        height: 400px;
+      }
+
+      h1 {
+        font-size: 2.5em;
+      }
+
+      p {
+        font-size: 1em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Welcome to the AI Reading Group</h1>
+  <p>Explore the world of artificial intelligence with our interactive neural network visualizations.</p>
+
+  <div id="neural-network">
+    <!-- Input Layer (3 nodes) -->
+    <div class="layer input-layer">
+      <div class="node" id="input1"></div>
+      <div class="node" id="input2"></div>
+      <div class="node" id="input3"></div>
+    </div>
+
+    <!-- Hidden Layer 1 (4 nodes) -->
+    <div class="layer hidden-layer1">
+      <div class="node" id="hidden1_1"></div>
+      <div class="node" id="hidden1_2"></div>
+      <div class="node" id="hidden1_3"></div>
+      <div class="node" id="hidden1_4"></div>
+    </div>
+
+    <!-- Hidden Layer 2 (4 nodes) -->
+    <div class="layer hidden-layer2">
+      <div class="node" id="hidden2_1"></div>
+      <div class="node" id="hidden2_2"></div>
+      <div class="node" id="hidden2_3"></div>
+      <div class="node" id="hidden2_4"></div>
+    </div>
+
+    <!-- Output Layer (2 nodes) -->
+    <div class="layer output-layer">
+      <div class="node" id="output1"></div>
+      <div class="node" id="output2"></div>
+    </div>
+
+    <!-- SVG for Connections -->
+    <svg id="connections-svg"></svg>
+  </div>
+
+  <script>
+    // JavaScript for Animating the Neural Network and Drawing Connections
+    const nodes = {
+      input: ['input1', 'input2', 'input3'],
+      hidden1: ['hidden1_1', 'hidden1_2', 'hidden1_3', 'hidden1_4'],
+      hidden2: ['hidden2_1', 'hidden2_2', 'hidden2_3', 'hidden2_4'],
+      output: ['output1', 'output2']
+    };
+
+    // Function to get the position of a node
+    function getNodePosition(nodeId) {
+      const node = document.getElementById(nodeId);
+      const rect = node.getBoundingClientRect();
+      const parentRect = node.parentElement.parentElement.getBoundingClientRect();
+      return {
+        x: rect.left + rect.width / 2 - parentRect.left,
+        y: rect.top + rect.height / 2 - parentRect.top
+      };
+    }
+
+    // Draw connections using SVG lines
+    function drawConnections() {
+      const svg = document.getElementById('connections-svg');
+      svg.innerHTML = ''; // Clear existing lines
+
+      // Input to Hidden Layer 1
+      nodes.input.forEach(inputNodeId => {
+        nodes.hidden1.forEach(hiddenNodeId => {
+          const startPos = getNodePosition(inputNodeId);
+          const endPos = getNodePosition(hiddenNodeId);
+          const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          line.setAttribute('x1', startPos.x);
+          line.setAttribute('y1', startPos.y);
+          line.setAttribute('x2', endPos.x);
+          line.setAttribute('y2', endPos.y);
+          line.setAttribute('class', 'connection');
+          svg.appendChild(line);
+        });
+      });
+
+      // Hidden Layer 1 to Hidden Layer 2
+      nodes.hidden1.forEach(hiddenNode1Id => {
+        nodes.hidden2.forEach(hiddenNode2Id => {
+          const startPos = getNodePosition(hiddenNode1Id);
+          const endPos = getNodePosition(hiddenNode2Id);
+          const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          line.setAttribute('x1', startPos.x);
+          line.setAttribute('y1', startPos.y);
+          line.setAttribute('x2', endPos.x);
+          line.setAttribute('y2', endPos.y);
+          line.setAttribute('class', 'connection');
+          svg.appendChild(line);
+        });
+      });
+
+      // Hidden Layer 2 to Output
+      nodes.hidden2.forEach(hiddenNodeId => {
+        nodes.output.forEach(outputNodeId => {
+          const startPos = getNodePosition(hiddenNodeId);
+          const endPos = getNodePosition(outputNodeId);
+          const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          line.setAttribute('x1', startPos.x);
+          line.setAttribute('y1', startPos.y);
+          line.setAttribute('x2', endPos.x);
+          line.setAttribute('y2', endPos.y);
+          line.setAttribute('class', 'connection');
+          svg.appendChild(line);
+        });
+      });
+    }
+
+    // Animation functions
+    function activateNode(nodeId) {
+      const node = document.getElementById(nodeId);
+      node.classList.add('active');
+    }
+
+    function deactivateNode(nodeId) {
+      const node = document.getElementById(nodeId);
+      node.classList.remove('active');
+    }
+
+    function activateConnectionsBetween(nodeIds1, nodeIds2) {
+      const svg = document.getElementById('connections-svg');
+      const lines = svg.querySelectorAll('.connection');
+      lines.forEach(line => {
+        const x1 = parseFloat(line.getAttribute('x1'));
+        const y1 = parseFloat(line.getAttribute('y1'));
+        const x2 = parseFloat(line.getAttribute('x2'));
+        const y2 = parseFloat(line.getAttribute('y2'));
+
+        nodeIds1.forEach(nodeId1 => {
+          const pos1 = getNodePosition(nodeId1);
+          nodeIds2.forEach(nodeId2 => {
+            const pos2 = getNodePosition(nodeId2);
+            if (
+              (Math.abs(pos1.x - x1) < 1 && Math.abs(pos1.y - y1) < 1 && Math.abs(pos2.x - x2) < 1 && Math.abs(pos2.y - y2) < 1) ||
+              (Math.abs(pos1.x - x2) < 1 && Math.abs(pos1.y - y2) < 1 && Math.abs(pos2.x - x1) < 1 && Math.abs(pos2.y - y1) < 1)
+            ) {
+              line.classList.add('active');
+            }
+          });
+        });
+      });
+    }
+
+    function deactivateAllConnections() {
+      const svg = document.getElementById('connections-svg');
+      const lines = svg.querySelectorAll('.connection');
+      lines.forEach(line => {
+        line.classList.remove('active');
+      });
+    }
+
+    // Animation Sequence
+    let currentStep = 0;
+    const animationSteps = [];
+
+    function setupAnimationSequence() {
+      // Draw initial connections
+      drawConnections();
+
+      // Build animation steps
+      nodes.input.forEach(nodeId => {
+        animationSteps.push(() => activateNode(nodeId));
+      });
+
+      animationSteps.push(() => activateConnectionsBetween(nodes.input, nodes.hidden1));
+
+      nodes.hidden1.forEach(nodeId => {
+        animationSteps.push(() => activateNode(nodeId));
+      });
+
+      animationSteps.push(() => activateConnectionsBetween(nodes.hidden1, nodes.hidden2));
+
+      nodes.hidden2.forEach(nodeId => {
+        animationSteps.push(() => activateNode(nodeId));
+      });
+
+      animationSteps.push(() => activateConnectionsBetween(nodes.hidden2, nodes.output));
+
+      nodes.output.forEach(nodeId => {
+        animationSteps.push(() => activateNode(nodeId));
+      });
+
+      // Deactivate all after a delay
+      animationSteps.push(() => {
+        nodes.input.forEach(deactivateNode);
+        nodes.hidden1.forEach(deactivateNode);
+        nodes.hidden2.forEach(deactivateNode);
+        nodes.output.forEach(deactivateNode);
+        deactivateAllConnections();
+      });
+    }
+
+    function runAnimation() {
+      if (currentStep === 0) {
+        setupAnimationSequence();
+      }
+
+      if (currentStep < animationSteps.length) {
+        animationSteps[currentStep]();
+        currentStep++;
+        setTimeout(runAnimation, 500);
+      } else {
+        currentStep = 0;
+        setTimeout(runAnimation, 2000); // Restart after 2 seconds
+      }
+    }
+
+    // Redraw connections on window resize
+    window.addEventListener('resize', () => {
+      drawConnections();
+    });
+
+    // Start the animation
+    runAnimation();
+  </script>
+
+</body>
+</html>

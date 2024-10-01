@@ -75,6 +75,16 @@ svg {
   height: 100%;
 }
 
+a:link {
+  color: #61dafb;
+}
+
+a:visited {
+  #color: #9370DB;
+  #color: #DDA0DD;
+  color: #DA70D6;
+}
+
 .connection {
   stroke: #555;
   stroke-width: 2;
